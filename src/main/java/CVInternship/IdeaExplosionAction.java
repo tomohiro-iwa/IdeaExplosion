@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -40,6 +41,7 @@ public class IdeaExplosionAction implements IPluginActionDelegate {
 			IPresentation[] pdata = api.getViewManager().getDiagramViewManager().getSelectedPresentations();
 
 			List<String> relation_words = getRelationWords(pdata[0].getLabel());
+			randomPickup(relation_words,10);
 			addRelationWords(pdata[0],relation_words);
 
 		} catch (ProjectNotFoundException e) {
@@ -64,7 +66,7 @@ public class IdeaExplosionAction implements IPluginActionDelegate {
 		String wiki_ja = "https://ja.wikipedia.org/wiki/";
 		Document word_html = Jsoup.connect(wiki_ja+serch).maxBodySize(0).get();
 		Elements cat_tags = word_html.select("#mw-normal-catlinks").select("a");
-		System.out.println(word_html.outerHtml());
+		//System.out.println(word_html.outerHtml());
 		Element last_cat_tag = cat_tags.last();
 
 		Document cat_html = Jsoup.connect(wiki_ja + "Category:"+last_cat_tag.text()).get();
@@ -72,9 +74,21 @@ public class IdeaExplosionAction implements IPluginActionDelegate {
 
 		for(Element tag : relation_tags)
 		{
-			relation_words.add(tag.text());
+			String word = tag.text();
+			if( !(word.isEmpty()) )
+				relation_words.add(word);
 		}
 		return relation_words;
+	}
+
+	private void randomPickup(List<String> words,int limit)
+	{
+		int list_len = words.size();
+		if( list_len > 10)
+		{
+			Collections.shuffle(words);
+			words.subList(10,list_len).clear();
+		}
 	}
 
 	private void addRelationWords(IPresentation targetNode, List<String> words) throws Exception 
