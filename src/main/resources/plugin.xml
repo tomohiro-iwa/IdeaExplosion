@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension point="com.change_vision.astah.ui.actionSets">
+      <actionSet
+            label="%action_set_label"
+            visible="true"
+            id="CVInternship.IdeaExplosion.actionSet">
+         <menu
+               id="IdeaExplosion"
+               label="%menu_group"
+               path="tool/IdeaExplosion">
+         </menu>
+         <action
+			   label="%menu_label"
+               icon="icons/sample.gif"
+               class="CVInternship.IdeaExplosionAction"
+               tooltip="%menu_tooltip"
+               menubarPath="tool/IdeaExplosion/"
+               id="IdeaExplosion">
+         </action>
+     </actionSet>
+   </extension>
+</plugin>
